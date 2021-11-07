@@ -18,6 +18,7 @@ namespace LogProxyApi.Services
         private readonly ILogger<AirTableService> _logger;
         
         private readonly ApiSettings apiSettings;
+        public AirTableService(){}
 
         public AirTableService(HttpClient client, IOptions<ApiSettings> apiSettings, ILogger<AirTableService> logger)
         {
@@ -32,21 +33,18 @@ namespace LogProxyApi.Services
             this.apiSettings = apiSettings.Value;
         }
 
-        public async Task<AirTableLogResponse> GetAllMessages()
+        public virtual async Task<AirTableLogResponse> GetAllMessages()
         {
             return await Client.GetFromJsonAsync<AirTableLogResponse>($"/{apiSettings.Prefix}/Messages");
         }
 
-        public async Task CreateMessage(LogRequest request)
+        public virtual async Task<LogRecordResponse> CreateMessage(LogRequest request)
         {
-            // var json = JsonSerializer.Serialize(request);
-            // this._logger.LogInformation(json);
-            // using var httpResponse = await Client.PostAsync("/v0/appD1b1YjWoXkUJwR/Messages", new StringContent(json));
-
             var options = new JsonSerializerOptions{ PropertyNamingPolicy = null };
             using var httpResponse = await Client.PostAsJsonAsync($"{apiSettings.Prefix}/Messages", request, options);
-            this._logger.LogInformation(await httpResponse.Content.ReadAsStringAsync());
+            
             httpResponse.EnsureSuccessStatusCode();
+            return await httpResponse.Content.ReadFromJsonAsync<LogRecordResponse>();
         }
     }
 }

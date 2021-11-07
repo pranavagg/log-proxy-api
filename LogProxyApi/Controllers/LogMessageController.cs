@@ -17,17 +17,17 @@ namespace LogProxyApi.Controllers
     [Route("messages")]
     public class LogMessageController: ControllerBase
     {
-        private readonly ILogger<HeartbeatController> _logger;
+        private readonly ILogger<LogMessageController> _logger;
         private readonly AirTableService airTableService;
 
-        public LogMessageController(ILogger<HeartbeatController> logger, AirTableService airTableService)
+        public LogMessageController(ILogger<LogMessageController> logger, AirTableService airTableService)
         {
             this._logger = logger;
             this.airTableService = airTableService;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<LogMessage>> GetMesages()
+        public async Task<List<LogMessage>> GetMesages()
         {
             AirTableLogResponse response = await airTableService.GetAllMessages();
             _logger.LogInformation(response.Records.Count.ToString());
