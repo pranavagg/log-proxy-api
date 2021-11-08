@@ -23,10 +23,7 @@ namespace LogProxyApi.Services
         public AirTableService(HttpClient client, IOptions<ApiSettings> apiSettings, ILogger<AirTableService> logger)
         {
             client.BaseAddress = new Uri($"{apiSettings.Value.Host}");
-            // GitHub API versioning
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            // GitHub requires a user-agent
-            client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{apiSettings.Value.ApiKey}");
             Client = client;
             this._logger = logger;

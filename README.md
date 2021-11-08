@@ -57,8 +57,8 @@ dotnet add ./LogProxyApi.Tests/LogProxyApi.Tests.csproj reference ./LogProxyApi/
 - Circuit Breaker for external Api
 - Unit Tests
     - Whether third party API mock getting called
-    - Whether Get request converting in correct output class
 - Pagination Support
     - Using Offset to convert into Page number equivalent API for all messages
     - No Change in Contract of Get API. Extra Param to be sent
     - If Contract can be changes then response should not be a list. It should be a object response with offset as provided by upstream.
+- CI/CD pipeline
